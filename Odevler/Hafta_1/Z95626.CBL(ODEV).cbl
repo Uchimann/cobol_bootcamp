@@ -4,9 +4,12 @@
        AUTHOR.        Otto B. Fun.
       *--------------------
        ENVIRONMENT DIVISION.
-      *--------------------
+      *Aşağıdaki satır, programın giriş-çıkış bölümünün başlangıcını belirtir.
        INPUT-OUTPUT SECTION.
+      *Aşağıdaki satır, programın dosya kontrol bölümünün başlangıcını belirtir.
        FILE-CONTROL.
+      *12. satırda, "PRINT-LINE" adlı bir dosya seçilir ve "PRTLINE" adıyla ataması yapılır.
+      *13. satırda, "ACCT-REC" adlı bir dosya seçilir ve "ACCTREC" adıyla ataması yapılır.
            SELECT PRINT-LINE ASSIGN TO PRTLINE.
            SELECT ACCT-REC   ASSIGN TO ACCTREC.
       *SELECT yan tümcesi dahili bir dosya adı oluşturur
@@ -19,20 +22,22 @@
        DATA DIVISION.
       *-------------
        FILE SECTION.
+      *Alt satır, "PRINT-LINE" adlı dosyanın formatının "F" (fixed) olduğunu belirtir.
        FD  PRINT-LINE RECORDING MODE F.
+      *"PRINT-REC" adlı bir kayıt tanımlanır. Bu kayıt, "PRINT-LINE" dosyasının yapısını temsil eder.
+      *30. satır, "ACCT-NO-O" adlı bir alan tanımlar. Bu alan, 8 karakter uzunluğunda bir alandır ve "PRINT-REC" kaydının bir parçasıdır.
+      *31. satır, "ACCT-LIMIT-O" adlı bir alan tanımlar. Bu alan, dolar simgeleri ve ondalık basamakları içeren bir miktardır.
+      *ve "PRINT-REC" kaydının bir parçasıdır.
        01  PRINT-REC.
            05  ACCT-NO-O      PIC X(8).
            05  ACCT-LIMIT-O   PIC $$,$$$,$$9.99.
            05  ACCT-BALANCE-O PIC $$,$$$,$$9.99.
-      * PIC $$,$$$,$$9.99 -- Bölüm 7.2.3'te PIC için alternatif,
-      * farklı basamak miktarlarına izin vermek için $ kullanılması
-      * ve .99 yerine v99 çıktıda dönem gösterimine izin vermek için
+      * 37. Satır,"LAST-NAME-O" adlı bir alan tanımlar. Bu alan, 20 karakter uzunluğunda bir alandır ve "PRINT-REC" kaydının bir parçasıdır.
            05  LAST-NAME-O    PIC X(20).
            05  FIRST-NAME-O   PIC X(15).
            05  COMMENTS-O     PIC X(50).
-      * 05 seviyesi 01 seviyesinden yüksek olduğu için,
-      * tüm değişkenler PRINT-REC'e aittir (bkz. bölüm 7.3.3)
-      *
+      * 05 seviyesi 01 seviyesinden düşük olduğu için,
+      * tüm değişkenler PRINT-REC'e aittir.
        FD  ACCT-REC RECORDING MODE F.
        01  ACCT-FIELDS.
            05  ACCT-NO            PIC X(8).
@@ -49,34 +54,40 @@
            05  RESERVED           PIC X(7).
            05  COMMENTS           PIC X(50).
       *
+      *60.satır, "LASTREC" adlı bir alan tanımlar. Bu alan, "SPACE" değeriyle başlatılan bir karakter alanıdır.
        WORKING-STORAGE SECTION.
        01 FLAGS.
          05 LASTREC           PIC X VALUE SPACE.
       *------------------
        PROCEDURE DIVISION.
       *------------------
+      *66.satır, "ACCT-REC" adlı dosyanın giriş olarak açılmasını sağlar.
+      *67. satır, "PRINT-LINE" adlı dosyanın çıkış olarak açılmasını sağlar.
        OPEN-FILES.
            OPEN INPUT  ACCT-REC.
            OPEN OUTPUT PRINT-LINE.
-      *
+      *70. satır, bir sonraki kaydı okuyan bir işlemi başlatır.
        READ-NEXT-RECORD.
            PERFORM READ-RECORD
-      * Döngüye girmeden önce önceki ifade gereklidir.
-      * Her iki döngü koşulu LASTREC = 'Y'
-      * ve YAZ-KAYIT çağrısı, OKUMA-KAYIT'ın sahip olmasına bağlıdır.
-      * daha önce idam edildi.
-      * Döngü bir sonraki satırda PERFORM UNTIL ile başlar.
+      *71.satır "READ-RECORD" işlemini gerçekleştirir.
+      *"LASTREC" 'in 'Y' olmadığı sürece bir döngünün devam etmesini sağlar.
+      *PERFORM WRITE-RECORD- "WRITE-RECORD" işlemini gerçekleştirir.
+      *PERFORM READ-RECORD- "READ-RECORD" işlemini gerçekleştirir.
+      * END-PERFORM, döngünün sonunu belirtir.
+      * Döngü bir sonraki satırda PERFORM UNTIL ile başlıyor.
            PERFORM UNTIL LASTREC = 'Y'
                PERFORM WRITE-RECORD
                PERFORM READ-RECORD
            END-PERFORM
            .
-      *
+      *Bu satır, dosyaların kapatılmasını ve programın sonlanmasını sağlar. 
+      *GOBACK programın sonlandığını belirtir.
        CLOSE-STOP.
            CLOSE ACCT-REC.
            CLOSE PRINT-LINE.
            GOBACK.
-      *
+      *-------------
+      *-----------
        READ-RECORD.
            READ ACCT-REC
                AT END MOVE 'Y' TO LASTREC
