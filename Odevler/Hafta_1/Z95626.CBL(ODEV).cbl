@@ -87,7 +87,7 @@
            CLOSE PRINT-LINE.
            GOBACK.
       *-------------
-      *-----------
+      *Bu kısmın detaylı açıklamasını dosyanın en altında bulabilirsiniz
        READ-RECORD.
            READ ACCT-REC
                AT END MOVE 'Y' TO LASTREC
@@ -101,4 +101,19 @@
            MOVE FIRST-NAME   TO  FIRST-NAME-O.
            MOVE COMMENTS     TO  COMMENTS-O.
            WRITE PRINT-REC.
-      *
+      *READ-RECORD.: Bu bölüm, bir kaydı okumak için ACCT-REC dosyasını okur.
+      *READ ACCT-REC: ACCT-REC dosyasından bir kaydı okur.
+      *AT END: Dosyanın sonuna gelindiğinde gerçekleşecek olan bir kontrol noktasını belirtir.
+      *MOVE 'Y' TO LASTREC: Dosyanın sonuna gelindiğinde, LASTREC değişkenine 'Y' atanır. 
+      *Bu, döngünün sonlanmasını sağlayacak bir kontrol mekanizmasıdır.
+      *END-READ.: Dosya okuma işlemini sonlandırır.
+      *WRITE-RECORD.: Bu bölüm, bir kaydı PRINT-LINE dosyasına yazmak için kullanılır.
+      *MOVE ACCT-NO TO ACCT-NO-O: ACCT-NO alanının değeri ACCT-NO-O alanına taşınır.
+      *MOVE ACCT-LIMIT TO ACCT-LIMIT-O: ACCT-LIMIT alanının değeri ACCT-LIMIT-O alanına taşınır.
+      *MOVE ACCT-BALANCE TO ACCT-BALANCE-O: ACCT-BALANCE alanının değeri ACCT-BALANCE-O alanına taşınır.
+      *MOVE LAST-NAME TO LAST-NAME-O: LAST-NAME alanının değeri LAST-NAME-O alanına taşınır.
+      *MOVE FIRST-NAME TO FIRST-NAME-O: FIRST-NAME alanının değeri FIRST-NAME-O alanına taşınır.
+      *MOVE COMMENTS TO COMMENTS-O: COMMENTS alanının değeri COMMENTS-O alanına taşınır.
+      *WRITE PRINT-REC.: PRINT-REC yapısındaki kaydı PRINT-LINE dosyasına yazmak için kullanılır.
+      *Bu bölümler, ACCT-REC dosyasından bir kaydı okuyarak ilgili alanları PRINT-LINE dosyasına yazan bir döngüyü temsil eder. 
+      *Döngü, dosyanın sonuna gelindiğinde sonlanır.
