@@ -1,7 +1,3 @@
-      *-----------------------
-      * Copyright Contributors to the COBOL Programming Course
-      * SPDX-License-Identifier: CC-BY-4.0
-      *-----------------------
        IDENTIFICATION DIVISION.
       *-----------------------
        PROGRAM-ID.    ODEV
@@ -13,14 +9,13 @@
        FILE-CONTROL.
            SELECT PRINT-LINE ASSIGN TO PRTLINE.
            SELECT ACCT-REC   ASSIGN TO ACCTREC.
-      *SELECT clause creates an internal file name
-      *ASSIGN clause creates a name for an external data source,
-      *which is associated with the JCL DDNAME used by the z/OS
-      *e.g. ACCTREC is linked in JCL file CBL0001J to &SYSUID..DATA
-      *where &SYSUID. stands for Your z/OS user id
-      *e.g. if Your user id is Z54321,
-      *the data set used for ACCTREC is Z54321.DATA	
-      *-------------
+      *SELECT yan tümcesi dahili bir dosya adı oluşturur
+      *ASSIGN yan tümcesi, harici bir veri kaynağı için bir ad oluşturur,
+      *z/OS tarafından kullanılan JCL DDNAME ile ilişkilidir
+      *Örneğin. ACCTREC, CBL0001J JCL dosyasında &SYSUID..DATA'ya bağlanmıştır.
+      *burada &SYSUID. z/OS kullanıcı kimliğiniz anlamına gelir
+      *Örneğin. kullanıcı kimliğiniz Z54321 ise,
+      *ACTREC için kullanılan veri seti Z54321.DATA'dır.
        DATA DIVISION.
       *-------------
        FILE SECTION.
@@ -29,22 +24,22 @@
            05  ACCT-NO-O      PIC X(8).
            05  ACCT-LIMIT-O   PIC $$,$$$,$$9.99.
            05  ACCT-BALANCE-O PIC $$,$$$,$$9.99.
-      * PIC $$,$$$,$$9.99 -- Alternative for PIC on chapter 7.2.3,
-      * using $ to allow values of different amounts of digits
-      * and .99 instead of v99 to allow period display on output
+      * PIC $$,$$$,$$9.99 -- Bölüm 7.2.3'te PIC için alternatif,
+      * farklı basamak miktarlarına izin vermek için $ kullanılması
+      * ve .99 yerine v99 çıktıda dönem gösterimine izin vermek için
            05  LAST-NAME-O    PIC X(20).
            05  FIRST-NAME-O   PIC X(15).
            05  COMMENTS-O     PIC X(50).
-      * since the level 05 is higher than level 01,
-      * all variables belong to PRINT-REC (see chapter 7.3.3)
+      * 05 seviyesi 01 seviyesinden yüksek olduğu için,
+      * tüm değişkenler PRINT-REC'e aittir (bkz. bölüm 7.3.3)
       *
        FD  ACCT-REC RECORDING MODE F.
        01  ACCT-FIELDS.
            05  ACCT-NO            PIC X(8).
            05  ACCT-LIMIT         PIC S9(7)V99 COMP-3.
            05  ACCT-BALANCE       PIC S9(7)V99 COMP-3.
-      * PIC S9(7)v99 -- seven-digit plus a sign digit value
-      * COMP-3 -- packed BCD (binary coded decimal) representation
+      * PIC S9(7)v99 -- yedi hane artı bir işaret hanesi değeri
+      * COMP-3 -- paketlenmiş BCD (ikili kodlu ondalık) gösterimi
            05  LAST-NAME          PIC X(20).
            05  FIRST-NAME         PIC X(15).
            05  CLIENT-ADDR.
@@ -66,11 +61,11 @@
       *
        READ-NEXT-RECORD.
            PERFORM READ-RECORD
-      *     The previous statement is needed before entering the loop.
-      *     Both the loop condition LASTREC = 'Y'
-      *     and the call to WRITE-RECORD depend on READ-RECORD having
-      *     been executed before.
-      *     The loop starts at the next line with PERFORM UNTIL
+      * Döngüye girmeden önce önceki ifade gereklidir.
+      * Her iki döngü koşulu LASTREC = 'Y'
+      * ve YAZ-KAYIT çağrısı, OKUMA-KAYIT'ın sahip olmasına bağlıdır.
+      * daha önce idam edildi.
+      * Döngü bir sonraki satırda PERFORM UNTIL ile başlar.
            PERFORM UNTIL LASTREC = 'Y'
                PERFORM WRITE-RECORD
                PERFORM READ-RECORD
