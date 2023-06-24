@@ -4,3 +4,4 @@ Detaylı incelemeyi dosya içerisindeki açıklama cümleleri ile yapabilirsiniz
 Özet gecmek gerekirse cobol dosyasında günümüz tarihinden kişinin doğum tarihini integer'a dönüstürerek arasındaki farkı aldık
 Qsam.bb dosyasındaki verilerin aynısını qsam.cc ye ekledik sadece satır sonlarına bu farkın kaç gün oldugunu ekledik.
 Yani kişinin kac gün yaşadığını hesaplayip bunu bir dosyaya veri olarak ekledik.
+Kısacası JCL dosyasında, DCALC adlı COBOL programını çalıştırırken, giriş ve çıktı veri dosyalarını belirli bir yerden alarak ve çıktıyı belirli bir yerde saklayarak işlemi yönlendiriyoruz.
