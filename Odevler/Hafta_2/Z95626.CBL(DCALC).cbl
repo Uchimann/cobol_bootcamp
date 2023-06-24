@@ -5,6 +5,8 @@
       *--Fıle control kısmında cobol dosyasında kullanacağımız PRINT-LINE değişkenini oluşturup
       *--bu değişkeni jcl dosyasında dizini belirlediğimiz PRTLINE değişkenine hizalıyoruz(bağlıyoruz)
       * aynı islemleri DATE-REC için de yapıyoruz.
+      *dosyalarin acilma durumlarini STATUS ile tutuyoruz. ST-PRINT-LINE ve ST-DATE-REC ile degerleri tutuyoruz. Daha sonra
+      *bu degerleri kullanarak kontrollerimizi yapacagiz.
        FILE-CONTROL.
            SELECT PRINT-LINE ASSIGN TO PRTLINE
                              STATUS ST-PRINT-LINE.
