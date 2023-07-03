@@ -3,6 +3,7 @@ bir indeks dosyasında (IDX-FILE) karşılık gelen kayıtları (IDX-REC) bulmak
 Bu işlem, her giriş kaydının anahtarını (IDX-KEY) kullanarak indeks dosyasında bir eşleme yaparak gerçekleştirilir._
 
 Programın çalışma mantığı şu şekildedir:
+
 **1.** Dosyaların açılması (INP-FILE, OUT-FILE, IDX-FILE).
 
 **2.** Giriş dosyasından (INP-FILE) bir kaydın okunması (INP-REC).
