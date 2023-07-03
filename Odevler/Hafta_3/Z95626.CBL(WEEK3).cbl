@@ -5,7 +5,7 @@
        FILE-CONTROL.
            SELECT IDX-FILE   ASSIGN TO IDXFILE
                              ORGANIZATION INDEXED
-                             ACCESS RANDOM 
+                             ACCESS RANDOM
                              RECORD KEY IDX-KEY
                              STATUS ST-IDX-FILE.
            SELECT INP-FILE ASSIGN TO INPFILE
@@ -17,10 +17,13 @@
        FD  OUT-FILE RECORDING MODE F.
          01  OUT-REC.
            03 REC-ID-O          PIC 9(5).
+           03 REC-SPACE-1       PIC X(2).
            03 REC-DVZ-O         PIC 9(3).
+           03 REC-SPACE-2       PIC X(2).
            03 REC-NAME-O        PIC X(15).
            03 REC-SRNAME-O      PIC X(15).
            03 REC-DATE-O        PIC 9(8).
+           03 REC-SPACE-3       PIC X(2).
            03 REC-BALANCE-O     PIC 9(15).
        FD  INP-FILE RECORDING MODE F.
          01  INP-REC.
@@ -96,14 +99,42 @@
            COMPUTE INT-DATE = FUNCTION INTEGER-OF-DAY(IDX-DATE)
            COMPUTE GREG-DATE = FUNCTION DATE-OF-INTEGER(INT-DATE)
            MOVE IDX-ID TO REC-ID-O
-           MOVE IDX-DVZ TO REC-DVZ-O 
-           MOVE IDX-NAME TO REC-NAME-O 
-           MOVE IDX-SRNAME TO REC-SRNAME-O 
+           MOVE IDX-DVZ TO REC-DVZ-O
+           MOVE IDX-NAME TO REC-NAME-O
+           MOVE IDX-SRNAME TO REC-SRNAME-O
            MOVE GREG-DATE TO REC-DATE-O
            MOVE IDX-BALANCE TO REC-BALANCE-O
+           MOVE ".." TO REC-SPACE-1 
+           MOVE ".." TO REC-SPACE-2 
+           MOVE ".." TO REC-SPACE-3 
+           IF REC-DVZ-O = 840
+           PERFORM H230-PRICE
+           END-IF 
            WRITE OUT-REC
            READ INP-FILE.
        H220-END. EXIT.
+
+       H230-PRICE.
+           IF REC-DATE-O < 19600101
+           COMPUTE REC-BALANCE-O  = REC-BALANCE-O  + 3000
+           ELSE IF REC-DATE-O < 19650101
+           COMPUTE REC-BALANCE-O  = REC-BALANCE-O  + 2750
+           ELSE IF REC-DATE-O < 19700101
+           COMPUTE REC-BALANCE-O  = REC-BALANCE-O  + 2500
+           ELSE IF REC-DATE-O < 19750101
+           COMPUTE REC-BALANCE-O  = REC-BALANCE-O  + 2250
+           ELSE IF REC-DATE-O < 19800101
+           COMPUTE REC-BALANCE-O  = REC-BALANCE-O  + 2000
+           ELSE IF REC-DATE-O < 19850101
+           COMPUTE REC-BALANCE-O  = REC-BALANCE-O  + 1750
+           ELSE IF REC-DATE-O < 19900101
+           COMPUTE REC-BALANCE-O  = REC-BALANCE-O  + 1500
+           ELSE IF REC-DATE-O < 19950101
+           COMPUTE REC-BALANCE-O  = REC-BALANCE-O  + 1250
+           ELSE IF REC-DATE-O < 20230101
+           COMPUTE REC-BALANCE-O  = REC-BALANCE-O  + 250
+           END-IF.
+       H230-END. EXIT.
 
        H999-PROGRAM-EXIT.
            CLOSE INP-FILE.
