@@ -17,8 +17,7 @@ Programın çalışma mantığı şu şekildedir:
 
 **5.** Programın sonlandırılması ve dosyaların kapatılması (H999-PROGRAM-EXIT).
 
-_Bu program, bir veritabanı kaydının indeks dosyası kullanılarak hızlı bir şekilde bulunmasını ve çıktı dosyasına yazılmasını
-sağlayan basit bir endeksleme işlemi gerçekleştirir._
+_Özetlemek gerikirse, giriş dosyasındaki kayıtları okuyarak çıktı dosyasına yazan bir işlem yapıyoruz. Ayrıca belirli bir tarihe göre hesaplama yaparak kayıt bakiyelerine ekleme yapıyoruz._
 
 ### Programın çalıştırılması ve denenmesi şu şekilde oluşuyor.
 
@@ -35,6 +34,5 @@ INP dosyasında aradığımız, VSAM dosyasında bulunan kayıtları QSAM.OUT do
 Oluşan dosyada ID, döviz kodu, isim, soyisim, hesaptaki bakiye, hesap açılış tarihi ve bonus olarak promosyon verilen miktarları görebilirsiniz.
 
 Eklemiş olduğum özellikte, dolar hesabı(840 kodu) bulunan kişilerin hesap açılış tarihlerine göre, belirli bir oranda promosyon ödülü eklenmektedir. 
-
 
 Daha eski açılan hesaplar daha fazla promosyon almış oluyor.
