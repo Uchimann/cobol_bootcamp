@@ -11,7 +11,7 @@
 //             DISP=(NEW,CATLG,DELETE),
 //             UNIT=SYSDA,
 //             SPACE=(TRK,(10,10),RLSE),
-//             DCB=(RECFM=FB,LRECL=61,BLKSIZE=0)
+//             DCB=(RECFM=FB,LRECL=67,BLKSIZE=0)
 //SYSOUT    DD SYSOUT=*,OUTLIM=15000
 //CEEDUMP   DD DUMMY
 //SYSUDUMP  DD DUMMY
